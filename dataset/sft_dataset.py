@@ -10,7 +10,7 @@ import transformers
 from torch.utils.data import Dataset
 from tqdm import tqdm
 
-from utils import jsonl_load
+from .utils import jsonl_load
 import logging
 
 logger = logging

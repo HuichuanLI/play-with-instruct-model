@@ -9,7 +9,7 @@ import wandb
 from torch.optim import Optimizer
 from torch.utils.data import DataLoader
 
-from base import Trainer, to_device
+from .base import Trainer, to_device
 
 
 class SFTTrainer(Trainer):
