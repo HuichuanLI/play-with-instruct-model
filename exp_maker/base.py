@@ -7,6 +7,8 @@ import torch
 import torch.nn as nn
 from model.base_package.actor import Actor
 
+
+# 其核心目标是为策略优化（Actor）和价值拟合（Critic）提供高质量的训练样本。
 # 封装单次交互的完整经验数据，用于后续策略（Actor）和价值（Critic）模型的优化。
 # sequences：输入提示（Prompt）+ 模型生成的动作（Action）组成的完整序列，形状为 [batch_size, seq_len]。
 #
@@ -55,6 +57,7 @@ class Experience:
         if self.action_mask is not None:
             self.action_mask = self.action_mask.pin_memory()
         return self
+
 
 # 1. 用Actor模型生成动作（文本）。
 #

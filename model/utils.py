@@ -16,8 +16,8 @@ def masked_mean(tensor: torch.Tensor,
 
 def log_probs_from_logits(logits: torch.Tensor,
                           labels: torch.Tensor) -> torch.Tensor:
-    #logits：模型输出的原始分数，形状为[batch, seq_len, vocab_size]。
-    #labels：目标Token的ID序列，形状为[batch, seq_len]。
+    # logits：模型输出的原始分数，形状为[batch, seq_len, vocab_size]。
+    # labels：目标Token的ID序列，形状为[batch, seq_len]。
     # [batch, seq_len, vocab_size]
     log_probs = F.log_softmax(logits, dim=-1)
     # [batch, seq_len] -> [batch, seq_len, 1]
