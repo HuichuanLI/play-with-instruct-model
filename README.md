@@ -4,21 +4,32 @@
 
 ![image-20250223161313683](./pic/1.png)
 
-- tran_sft.py: 
 
-  - **人工标注：SFT(supervised fine-tune)**
+### 1. 人工标注：SFT (supervised fine-tune)
+- **相关文件**：`train_sft.py`
+- **功能描述**：
+  - 使用 `instruction -> response` 数据集进行监督微调。对于从未经过对齐的GPT-3来说，这一步比较重要，但对于ChatGPT则不必要。
+  - 如果这一步的数据集足够大，甚至可以忽略后续的RLHF（人类反馈强化学习）步骤。
 
-    - instruction -> response数据集，
+### 2. 人类反馈
+- **相关文件**：`train_rm.py`
+- **功能描述**：
+  - 基于GPT-3的SFT模型对同一 `instruction` 给出的多个 `response` 进行排序。
+  - 利用基于排序的pair-wise loss（成对损失）来训练 `response` 评分模型RM（Reward Model）。
 
-    - 这一步对于从未经过对齐的GPT3来说比较重要。对于ChatGPT就不必要
+### 3. 强化学习PPO
+- **相关文件**：`tran_rlhf.py`（推测可能是 `train_rlhf.py` ，因为 `tran` 可能是拼写错误）
+- **功能描述**：
+  - GPT-3的SFT模型使用RM评分模型作为奖励（reward）。
+  - 使用PPO（Proximal Policy Optimization）算法进行fine-tune（微调）。
 
-    - 如果这里的数据集足够大，忽略后面的RLHF也行。但一般没这么多数据
-- train_rm.py：
+仓库的目录结构如下：
+- `train_rm.py` 和 `train_sft.py` 是主要的训练脚本。
+- `trainer` 文件夹包含训练器相关的代码，如 `base.py`、`rm.py`、`sft.py`。
+- `model` 文件夹包含模型相关的代码，包括基础模型和一些自定义损失函数等。
+- `pic` 文件夹存放图片，如 `1.png` 用于说明整体流程。
+- `ds` 文件夹存放数据集，如 `alpaca-en.json`、`rm.jsonl` 等。
+- `dataset` 文件夹包含数据集处理相关的代码，如 `prompt_dataset.py`、`rm_dataset.py`、`sft_dataset.py` 等。
+- `utils.py` 可能包含一些工具函数。
 
-  - **人类反馈**
-    - 基于GPT3SFT对同一instructiong给出的多个response排序
-    - 基于排序的pair-wise loss训练response评分模型RM
-- tran_rlhf.py：
-  - **强化学习PPO**
-    - GPT3SFT使用 RM评分模型 作为reward
-    - 使用PPO算法进行 fine-tune
+这些文件和文件夹的组织，实现了一个完整的 instruct-gpt 的训练和构建流程。
