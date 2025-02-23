@@ -18,7 +18,7 @@
   - 利用基于排序的pair-wise loss（成对损失）来训练 `response` 评分模型RM（Reward Model）。
 
 ### 3. 强化学习PPO
-- **相关文件**：`tran_rlhf.py`（推测可能是 `train_rlhf.py` .
+- **相关文件**：`train_rlhf.py`` .
 - **功能描述**：
   - GPT-3的SFT模型使用RM评分模型作为奖励（reward）。
   - 使用PPO（Proximal Policy Optimization）算法进行fine-tune（微调）。
