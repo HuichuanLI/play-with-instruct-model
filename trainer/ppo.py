@@ -31,14 +31,7 @@ from .base import OnPolicyTrainer, to_device
 # ValueLoss：价值函数损失，带clip机制稳定训练。
 #
 # LMLoss：语言模型损失（监督学习），防止遗忘预训练知识。
-# (3) 超参数
-# kl_coef：KL散度惩罚系数。
 #
-# ptx_coef：预训练损失混合比例。
-#
-# eps_clip：策略更新的clip范围。
-#
-# vf_coef：价值损失权重。
 class PPOTrainer(OnPolicyTrainer):
     def __init__(self,
                  actor: Actor,
@@ -123,7 +116,7 @@ class PPOTrainer(OnPolicyTrainer):
                              attention_mask=experience.attention_mask
                              )
         critic_loss = self.critic_loss_fn(values, experience.values,
-                                          experience.reward, action_mask=experience.action_mask)
+                                          experience.reward)
         critic_loss = critic_loss * self.vf_coef
         critic_loss.backward()
         self.critic_optim.step()

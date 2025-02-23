@@ -16,7 +16,7 @@ class RewardModelTrainer(Trainer):
                  lr_scheduler,
                  loss_fn: Callable,
                  max_epochs: int = 1,
-                 device='cuda') -> None:
+                 device='cpu') -> None:
         super(RewardModelTrainer, self).__init__(max_epochs, model, optim)
         self.loss_fn = loss_fn
         self.scheduler = lr_scheduler

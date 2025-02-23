@@ -15,7 +15,7 @@ class PromptDataset(Dataset):
     def __init__(self, data_path: str,
                  tokenizer: transformers.PreTrainedTokenizer,
                  max_len: int = 96,
-                 device='cuda'
+                 device='cpu'
                  ):
         super(PromptDataset, self).__init__()
         self.keyed_prompt = defaultdict(list)

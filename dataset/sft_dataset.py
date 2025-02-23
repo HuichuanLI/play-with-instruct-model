@@ -102,7 +102,7 @@ from transformers import AutoTokenizer
 
 if __name__ == '__main__':
     tokenr = AutoTokenizer.from_pretrained('facebook/opt-125m')
-    s = ["哈哈哈","我爱你"]
+    s = ["哈哈哈", "我爱你"]
     ret = tokenr(s)
     print(ret)
 

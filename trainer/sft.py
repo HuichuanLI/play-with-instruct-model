@@ -18,7 +18,7 @@ class SFTTrainer(Trainer):
                  lr_scheduler,
                  max_epochs: int = 2,
                  batch_size: int = 2,
-                 device='cuda') -> None:
+                 device='cpu') -> None:
         super(SFTTrainer, self).__init__(max_epochs, model, optim)
         self.scheduler = lr_scheduler
         self.batch_size = batch_size
