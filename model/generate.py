@@ -95,4 +95,4 @@ def generate_with_actor(actor_model: nn.Module,
         action_mask[:, :input_len] = False
         # [  0,1,   1,1,1,0,0]
         action_mask = action_mask[:, 1:]
-        return sequences, attention_mask, action_mask[:, -(sequences.size(1) - input_len):]
+    return sequences, attention_mask, action_mask[:, -(sequences.size(1) - input_len):]

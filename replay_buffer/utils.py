@@ -4,6 +4,9 @@
 # experience [sequences[16,xx]/reward[16]/values[16]]
 # buffer [ sequences[xx]/reward[1]/values[1]]
 
+# 经验回放（Replay Buffer）：强化学习中需存储大量独立经验样本（BufferItem），便于随机采样。
+# 动态序列长度：生成的文本长度不一，直接存储批量数据可能导致内存浪费，拆分后按需填充更高效。
+
 from dataclasses import dataclass
 from typing import List, Optional
 

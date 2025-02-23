@@ -1,5 +1,5 @@
 # trainer:
-# -- base_package.py
+# -- base.py
 
 from abc import ABC, abstractmethod
 from typing import Any
@@ -44,6 +44,7 @@ class Trainer(ABC):
             self._eval(epoch)
 
 
+from replay_buffer.naive import NaiveReplayBuffer
 from torch.utils.data import DataLoader
 
 
@@ -64,7 +65,7 @@ class CycledDataLoader:
 
 
 class OnPolicyTrainer(ABC):
-    def __init__(self, buffer):
+    def __init__(self, buffer: NaiveReplayBuffer):
         super(OnPolicyTrainer, self).__init__()
         self.buffer = buffer
 
