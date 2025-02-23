@@ -97,7 +97,7 @@ class PPOTrainer(OnPolicyTrainer):
                                         experience.advantages,
                                         action_mask=experience.action_mask)
 
-        # ptx loss
+        # ptx loss 语言模型的loss
         if self.ptx_coef != 0:
             batch = self.pretrain_dataloader.next()
             batch = to_device(batch, self.device)

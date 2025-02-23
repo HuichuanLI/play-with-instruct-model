@@ -20,7 +20,7 @@
 ### 3. 强化学习PPO
 - **相关文件**：`train_rlhf.py` .
 - **功能描述**：
-  - GPT-3的SFT模型使用RM评分模型作为奖励（reward）。
+  - GPT-3的SFT模型使用RM评分模型作为奖励（reward）；当然也可以用人的评分做微调。
   - 使用PPO（Proximal Policy Optimization）算法进行fine-tune（微调）。
 
 仓库的目录结构如下：
