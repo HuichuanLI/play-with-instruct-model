@@ -19,6 +19,6 @@
     - 基于GPT3SFT对同一instructiong给出的多个response排序
     - 基于排序的pair-wise loss训练response评分模型RM
 - tran_rlhf.py：
-
-  - GPT3SFT使用 RM评分模型 作为reward
-  - 使用PPO算法进行 fine-tune
+  - **强化学习PPO**
+    - GPT3SFT使用 RM评分模型 作为reward
+    - 使用PPO算法进行 fine-tune
