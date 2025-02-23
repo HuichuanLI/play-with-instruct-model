@@ -22,13 +22,14 @@ class Critic(nn.Module):
                 action_mask: Optional[torch.Tensor] = None,
                 attention_mask: Optional[torch.Tensor] = None
                 ) -> torch.Tensor:
+        # 把数据穿过去
         outputs = self.model(input_ids, attention_mask=attention_mask)
-        # [batch, seq_len, d_dim]
+        # 最后一层mha[batch, seq_len, d_dim]
         last_hidden_states = outputs['last_hidden_state']
-
+        # 把所有的结果输出给reward model计算出一个值
         # [batch, seq_len, 1] -> [batch, seq_len]
         values = self.value_head(last_hidden_states).squeeze(-1)
-
+        # 如果action_mask
         if action_mask is not None and self.use_action_mask:
             num_actions = action_mask.size(1)
             # [batch, seq_len-num_action]

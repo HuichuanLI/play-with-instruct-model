@@ -14,3 +14,13 @@ cache/code/cache/models--facebook--opt-125m/.no_exist/27dcfa74d334bc871f3234de43
 dataset/__pycache__/
 
 *.pyc
+
+*.lock
+
+cache/models--facebook--opt-125m/.no_exist/27dcfa74d334bc871f3234de431e71c6eeba5dd6/
+
+cache/models--facebook--opt-125m/blobs/
+
+cache/models--facebook--opt-125m/snapshots/27dcfa74d334bc871f3234de431e71c6eeba5dd6/
+
+cache/models--facebook--opt-125m/refs/

@@ -6,9 +6,10 @@ from typing import Optional
 import torch
 from torch import nn
 
+
 class RewardModel(nn.Module):
     def __init__(self, model: nn.Module,
-            value_head: Optional[nn.Module] = None)-> None:
+                 value_head: Optional[nn.Module] = None) -> None:
         super(RewardModel, self).__init__()
         self.model = model
         if value_head is None:
@@ -19,7 +20,7 @@ class RewardModel(nn.Module):
             self.value_head = value_head
 
     def forward(self, sequences: torch.Tensor,
-        attention_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
+                attention_mask: Optional[torch.Tensor] = None) -> torch.Tensor:
         outputs = self.model(sequences, attention_mask=attention_mask)
         last_hidden_states = outputs['last_hidden_state']
         # [batch, seq_len, n_embd]
