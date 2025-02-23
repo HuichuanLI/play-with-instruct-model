@@ -30,6 +30,5 @@
 - `pic` 文件夹存放图片，如 `1.png` 用于说明整体流程。
 - `ds` 文件夹存放数据集，如 `alpaca-en.json`、`rm.jsonl` 等。
 - `dataset` 文件夹包含数据集处理相关的代码，如 `prompt_dataset.py`、`rm_dataset.py`、`sft_dataset.py` 等。
-- `utils.py` 可能包含一些工具函数。
+- `utils.py` 包含一些工具函数。
 
-这些文件和文件夹的组织，实现了一个完整的 instruct-gpt 的训练和构建流程。
