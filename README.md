@@ -2,7 +2,7 @@
 
 从0到1实现一个简单的instruct-gpt(使用facebook/opt-125m)，从训练到模型的构建，主要分成三个步骤：
 
-![image-20250223161313683](/Users/lhc456/Library/Application Support/typora-user-images/image-20250223161313683.png)
+![image-20250223161313683](./pic/1.png)
 
 - tran_sft: 
 
