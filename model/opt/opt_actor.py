@@ -3,9 +3,10 @@
 # -- -- opt_actor.py
 from typing import Optional
 from transformers.models.opt import OPTConfig, OPTForCausalLM
+from ..base_package.actor import Actor
 
 
-class OPTActor():
+class OPTActor(Actor):
     def __init__(self, pretrained: Optional[str] = None,
                  config: Optional[OPTConfig] = None,
                  checkpoint: bool = False,

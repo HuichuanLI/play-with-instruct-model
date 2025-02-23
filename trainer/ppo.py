@@ -15,6 +15,30 @@ from torch.optim import Optimizer
 from .base import OnPolicyTrainer, to_device
 
 
+# 这个PPOTrainer类是基于OnPolicyTrainer框架实现的PPO（Proximal Policy Optimization）算法，专为强化学习与语言模型结合的场景设计（如对话生成）。以下是逐层解析：
+# （1）模型与优化器
+# Actor：策略网络，生成动作（如生成文本）。
+#
+# Critic：价值网络，评估状态价值。
+#
+# Reward Model：计算即时奖励（如文本质量评估）。
+#
+# Initial Model：参考模型（通常为初始策略），用于计算KL散度防止策略突变。
+#
+# (2) 损失函数
+# PolicyLoss：PPO-Clip策略损失，限制新旧策略差异。
+#
+# ValueLoss：价值函数损失，带clip机制稳定训练。
+#
+# LMLoss：语言模型损失（监督学习），防止遗忘预训练知识。
+# (3) 超参数
+# kl_coef：KL散度惩罚系数。
+#
+# ptx_coef：预训练损失混合比例。
+#
+# eps_clip：策略更新的clip范围。
+#
+# vf_coef：价值损失权重。
 class PPOTrainer(OnPolicyTrainer):
     def __init__(self,
                  actor: Actor,

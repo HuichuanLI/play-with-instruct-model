@@ -6,7 +6,7 @@ import torch
 import transformers
 from torch.utils.data import Dataset
 import logging
-from utils import jsonl_load, jload
+from .utils import jsonl_load, jload
 
 logger = logging
 

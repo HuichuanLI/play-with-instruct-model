@@ -11,7 +11,7 @@ from .utils import BufferItem, make_experience_batch, split_experience_batch
 
 class NaiveReplayBuffer(ReplayBuffer):
     def __init__(self, sample_batch_size: int,
-                 limit: int = 0, cpu_offload: bool = True, device='cuda'):
+                 limit: int = 0, cpu_offload: bool = True, device='cpu'):
         super(NaiveReplayBuffer, self).__init__(sample_batch_size, limit)
         self.cpu_offload = cpu_offload
         self.items: List[BufferItem] = []

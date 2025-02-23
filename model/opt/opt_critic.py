@@ -6,8 +6,10 @@ import torch
 from torch import nn
 from transformers.models.opt import OPTConfig, OPTModel
 
+from ..base_package.critic import Critic
 
-class OPTCritic():
+
+class OPTCritic(Critic):
     def __init__(self, pretrained: Optional[str] = None,
                  config: Optional[OPTConfig] = None,
                  checkpoint: bool = False,

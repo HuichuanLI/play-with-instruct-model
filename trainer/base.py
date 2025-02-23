@@ -48,6 +48,8 @@ from replay_buffer.naive import NaiveReplayBuffer
 from torch.utils.data import DataLoader
 
 
+# CycledDataLoader：将输入的 prompt_dataloader 和 pretrain_dataloader 转换为无限循环的数据流，确保训练过程中数据持续供应。
+
 class CycledDataLoader:
     def __init__(self, dataloader: DataLoader):
         self.dataloader = dataloader
@@ -63,6 +65,9 @@ class CycledDataLoader:
             self.dataloader_iter = iter(self.dataloader)
             return next(self.dataloader_iter)
 
+
+# _make_experience()：子类需实现如何生成经验（如通过环境交互）。
+#  _learn()：子类需实现如何用收集的数据更新模型。
 
 class OnPolicyTrainer(ABC):
     def __init__(self, buffer: NaiveReplayBuffer):
