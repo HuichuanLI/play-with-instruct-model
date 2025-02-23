@@ -32,3 +32,11 @@
 - `dataset` 文件夹包含数据集处理相关的代码，如 `prompt_dataset.py`、`rm_dataset.py`、`sft_dataset.py` 等。
 - `utils.py` 包含一些工具函数。
 
+
+
+### TODO
+- 低成本微调大模型方法PEFT,上面的训练成本较大
+  - lora
+  - p-truning
+  - prefix-truning
+  - prompt_tuning
