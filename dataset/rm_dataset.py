@@ -12,7 +12,9 @@ class RmDataset(Dataset):
     def __init__(self, dataset, tokenizer: Callable,
                  max_len: int, special_token=None) -> None:
         super(RmDataset, self).__init__()
+        # 相对更好的
         self.chosen = []
+        # 相对更差的
         self.reject = []
         if special_token is None:
             self.end_token = tokenizer.eos_token
