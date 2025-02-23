@@ -4,14 +4,13 @@
 from typing import Optional
 from transformers.models.opt import OPTConfig, OPTForCausalLM
 
-from ..base.actor import Actor
 
-class OPTActor(Actor):
+class OPTActor():
     def __init__(self, pretrained: Optional[str] = None,
-            config: Optional[OPTConfig] = None,
-            checkpoint: bool = False,
-            cache_dir = None) -> None:
-        if pretrained is not  None:
+                 config: Optional[OPTConfig] = None,
+                 checkpoint: bool = False,
+                 cache_dir=None) -> None:
+        if pretrained is not None:
             model = OPTForCausalLM.from_pretrained(pretrained, cache_dir=cache_dir)
         elif config is not None:
             model = OPTForCausalLM(config)

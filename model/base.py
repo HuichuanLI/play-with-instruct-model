@@ -1,5 +1,5 @@
 # trainer:
-# -- base.py
+# -- base_package.py
 
 from abc import ABC, abstractmethod
 from typing import Any
@@ -64,7 +64,7 @@ class CycledDataLoader:
 
 
 class OnPolicyTrainer(ABC):
-    def __init__(self, buffer: NaiveReplayBuffer):
+    def __init__(self, buffer):
         super(OnPolicyTrainer, self).__init__()
         self.buffer = buffer
 

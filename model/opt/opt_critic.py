@@ -5,14 +5,14 @@ from typing import Optional
 import torch
 from torch import nn
 from transformers.models.opt import OPTConfig, OPTModel
-from ..base.critic import Critic
 
-class OPTCritic(Critic):
+
+class OPTCritic():
     def __init__(self, pretrained: Optional[str] = None,
-            config: Optional[OPTConfig] = None,
-            checkpoint: bool = False,
-            cache_dir = None,
-            **kwargs) -> None:
+                 config: Optional[OPTConfig] = None,
+                 checkpoint: bool = False,
+                 cache_dir=None,
+                 **kwargs) -> None:
         if pretrained is not None:
             model = OPTModel.from_pretrained(pretrained, cache_dir=cache_dir)
         elif config is not None:

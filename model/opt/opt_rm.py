@@ -5,7 +5,7 @@
 from typing import Optional
 import torch.nn as nn
 from transformers import OPTModel, OPTConfig
-from model.base.reward_model import RewardModel
+from model.base_package.reward_model import RewardModel
 
 
 class OPTRM(RewardModel):
