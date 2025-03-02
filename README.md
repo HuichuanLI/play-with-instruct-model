@@ -22,6 +22,7 @@
 - **功能描述**：
   - GPT-3的SFT模型使用RM评分模型作为奖励（reward）；当然也可以用人的评分做微调。
   - 使用PPO（Proximal Policy Optimization）算法进行fine-tune（微调）。
+  - 主要分成3个loss = actor_loss + LLM_loss + value_loss(crtic_loss)
 
 仓库的目录结构如下：
 - `train_rm.py` 和 `train_sft.py` 是主要的训练脚本。
@@ -32,11 +33,24 @@
 - `dataset` 文件夹包含数据集处理相关的代码，如 `prompt_dataset.py`、`rm_dataset.py`、`sft_dataset.py` 等。
 - `utils.py` 包含一些工具函数。
 
+### PEFT
+#Prompt_tuning
+- PEFT（Parameter-Efficient Fine-Tuning）是一种在深度学习模型微调过程中减少需要更新参数数量的技术集合，从而使得调整大型预训练模型更加高效和经济。通过PEFT方法，我们能够显著降低对计算资源的需求，并且避免了传统全参数微调中可能出现的问题，比如灾难性遗忘——即模型在学习新任务时可能会忘记之前学过的知识。
+####  prompt_tuning
+-  最简单的微调方式使用的是提示词进行训练，额外虚拟的token塞到模型的embedding层。
+-  使用自己的实验prompt-tuning trainable params: 7,680 || all params: 125,246,976 || trainable%: 0.0061
+####  p-tuning
+- 使用了LSTM+MLP的方式对提升词进行训练，塞到的模型模型的embedding层中
+
+#### prefix-tuning
+- 每一层都需要谭家对应的训练
+- 使用自己的实验trainable params: 184,320 || all params: 125,423,616 || trainable%: 0.1470
+
 
 
 ### TODO
 - 低成本微调大模型方法PEFT,上面的训练成本较大
   - lora
-  - p-truning
-  - prefix-truning
+  - p-tuning
+  - prefix-tuning
   - prompt_tuning

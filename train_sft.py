@@ -37,16 +37,21 @@ def train(args):
     #                         enable_lora=[True, False, True],
     #                         lora_dropout=0.1,
     #                         bias="none", )
-    #     # model = get_peft_model(model, config)
-    #     # config = PromptTuningConfig(
-    #     #     task_type=TaskType.CAUSAL_LM,
-    #     #     num_virtual_tokens=10,
-    #     # )
-    #     # config = PrefixTuningConfig(
-    #     #
-    #     # )
-    #     model = get_peft_model(model, config)
-    #     model.print_trainable_parameters()
+    # config = PromptTuningConfig
+    # model = get_peft_model(model, config)
+    # config = PromptTuningConfig(
+    #     task_type=TaskType.CAUSAL_LM,
+    #     num_virtual_tokens=10,
+    #     peft_type="PROMPT_TUNING",
+    #     encoder_reparameterization_type="LSTM"
+    # )
+
+    # model = get_peft_model(model, config)
+    # model.print_trainable_parameters()
+    config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM,
+                                num_virtual_tokens=10)
+    model = get_peft_model(model, config)
+    model.print_trainable_parameters()
     optim = Adam(model.parameters(), lr=args.lr)
     train_dataset = SupervisedDataset(tokenizer=tokenizer,
                                       data_path=args.dataset,
