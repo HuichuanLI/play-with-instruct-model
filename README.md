@@ -64,3 +64,6 @@
 ![image-20250302204218591](/Users/lhc456/Desktop/python/play-with-instruct-model/pic/5.png)
 
 - 使用自己的实验trainable params: trainable params: 147,456 || all params: 125,386,752 || trainable%: 0.1176
+
+
+### 一个简单的peft的例子
