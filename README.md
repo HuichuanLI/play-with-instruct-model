@@ -48,7 +48,7 @@
 -  使用自己的实验prompt-tuning trainable params: 7,680 || all params: 125,246,976 || trainable%: 0.0061
 ####  p-tuning
 
-![image-20250302204356406](/Users/lhc456/Desktop/python/play-with-instruct-model/pic/6.png)
+![image-20250302204356406](./pic/6.png)
 
 - 使用了LSTM+MLP的方式对提升词进行训练，塞到的模型模型的embedding层中
 
@@ -61,9 +61,10 @@
 
 
 #### lora
-![image-20250302204218591](/Users/lhc456/Desktop/python/play-with-instruct-model/pic/5.png)
+![image-20250302204218591](./pic/5.png)
 
 - 使用自己的实验trainable params: trainable params: 147,456 || all params: 125,386,752 || trainable%: 0.1176
 
 
 ### 一个简单的peft的例子
+- 使用一个简单的例子通过lora方式进行微调，从而让大模型可以记住我们的问题 [实现](https://github.com/HuichuanLI/play-with-instruct-model/blob/main/ChatGLM2_AdaLoRA.ipynb)
