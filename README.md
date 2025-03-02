@@ -36,21 +36,31 @@
 ### PEFT
 #Prompt_tuning
 - PEFT（Parameter-Efficient Fine-Tuning）是一种在深度学习模型微调过程中减少需要更新参数数量的技术集合，从而使得调整大型预训练模型更加高效和经济。通过PEFT方法，我们能够显著降低对计算资源的需求，并且避免了传统全参数微调中可能出现的问题，比如灾难性遗忘——即模型在学习新任务时可能会忘记之前学过的知识。
+#### BitFit
+
+- ![image-20250302203238276](./pic/2.png)
+
 ####  prompt_tuning
+
+![image-20250302203407766](./pic/3.png)
+
 -  最简单的微调方式使用的是提示词进行训练，额外虚拟的token塞到模型的embedding层。
 -  使用自己的实验prompt-tuning trainable params: 7,680 || all params: 125,246,976 || trainable%: 0.0061
 ####  p-tuning
+
+![image-20250302204356406](/Users/lhc456/Desktop/python/play-with-instruct-model/pic/6.png)
+
 - 使用了LSTM+MLP的方式对提升词进行训练，塞到的模型模型的embedding层中
 
 #### prefix-tuning
-- 每一层都需要谭家对应的训练
+
+![image-20250302203523639](./pic/4.png)
+
+- 每一层都需要对于q,k,v的结果进行修改
 - 使用自己的实验trainable params: 184,320 || all params: 125,423,616 || trainable%: 0.1470
 
 
+#### lora
+![image-20250302204218591](/Users/lhc456/Desktop/python/play-with-instruct-model/pic/5.png)
 
-### TODO
-- 低成本微调大模型方法PEFT,上面的训练成本较大
-  - lora
-  - p-tuning
-  - prefix-tuning
-  - prompt_tuning
+- 使用自己的实验trainable params: trainable params: 147,456 || all params: 125,386,752 || trainable%: 0.1176

@@ -32,11 +32,11 @@ def train(args):
     tokenizer.pad_token = tokenizer.eos_token
     model = AutoModelForCausalLM.from_pretrained(args.pretrain,
                                                  trust_remote_code=True, cache_dir=args.cache)
-    #     config = LoraConfig(r=4,
-    #                         lora_alpha=4,
-    #                         enable_lora=[True, False, True],
-    #                         lora_dropout=0.1,
-    #                         bias="none", )
+    config = LoraConfig(r=4,
+                        lora_alpha=4,
+                        # enable_lora=[True, False, True],
+                        lora_dropout=0.1,
+                        bias="none", )
     # config = PromptTuningConfig
     # model = get_peft_model(model, config)
     # config = PromptTuningConfig(
@@ -46,12 +46,12 @@ def train(args):
     #     encoder_reparameterization_type="LSTM"
     # )
 
-    # model = get_peft_model(model, config)
-    # model.print_trainable_parameters()
-    config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM,
-                                num_virtual_tokens=10)
     model = get_peft_model(model, config)
     model.print_trainable_parameters()
+    # config = PrefixTuningConfig(task_type=TaskType.CAUSAL_LM,
+    #                             num_virtual_tokens=10)
+    # model = get_peft_model(model, config)
+    # model.print_trainable_parameters()
     optim = Adam(model.parameters(), lr=args.lr)
     train_dataset = SupervisedDataset(tokenizer=tokenizer,
                                       data_path=args.dataset,

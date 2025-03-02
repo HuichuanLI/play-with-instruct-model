@@ -1,7 +1,7 @@
-
 import torch
 from torch import nn
 import torch.nn.functional as F
+
 
 class LoraModel(nn.Module):
     def __init__(self, config, model):
@@ -14,17 +14,19 @@ class LoraModel(nn.Module):
         # embedding
         pass
 
+
 def mark_only_lora_as_trainable():
     pass
 
+
 class LoraLayer:
     def __init__(self,
-            r: int,
-            # W + alpha * w_delta
-            lora_alpha: int,
-            lora_dropout: float,
-            merge_weights: bool
-    ):
+                 r: int,
+                 # W + alpha * w_delta
+                 lora_alpha: int,
+                 lora_dropout: float,
+                 merge_weights: bool
+                 ):
         self.r = r
         self.lora_alpha = lora_alpha
         if lora_dropout > 0.0:
@@ -37,19 +39,21 @@ class LoraLayer:
         # lora
         self.disable_adapters = False
 
+
 def transpose(weight):
     return weight.T
 
+
 class Linear(nn.Linear, LoraLayer):
     def __init__(self,
-            in_features: int,
-            out_features: int,
-            r: int = 0, #4
-            lora_alpha: int = 1,
-            lora_dropout: float = 0.0,
-            merge_weights: bool = True,
-            **kwargs
-    ):
+                 in_features: int,
+                 out_features: int,
+                 r: int = 0,  # 4
+                 lora_alpha: int = 1,
+                 lora_dropout: float = 0.0,
+                 merge_weights: bool = True,
+                 **kwargs
+                 ):
         nn.Linear.__init__(self, in_features, out_features, **kwargs)
         LoraLayer.__init__(self, r, lora_alpha, lora_dropout, merge_weights)
         if r > 0:
@@ -67,16 +71,16 @@ class Linear(nn.Linear, LoraLayer):
         self.lora_B.train(mode)
         if not mode and self.merge_weights and not self.merged:
             if self.r > 0:
-                #torch.matmul()
+                # torch.matmul()
                 # [out, in]
                 self.weight.data += (
-                    transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
+                        transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
                 )
             self.merged = True
         elif self.merge_weights and self.merged:
             if self.r > 0:
                 self.weight.data -= (
-                    transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
+                        transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
                 )
             self.merged = False
 
@@ -89,7 +93,7 @@ class Linear(nn.Linear, LoraLayer):
         if self.disable_adapters:
             if self.r > 0 and self.merged:
                 self.weight.data -= (
-                    transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
+                        transpose(self.lora_B.weight @ self.lora_A.weight) * self.scaling
                 )
                 self.merged = False
             return F.linear(x, transpose(self.weight), bias=self.bias)
@@ -103,20 +107,22 @@ class Linear(nn.Linear, LoraLayer):
         else:
             return F.linear(x, transpose(self.weight), bias=self.bias)
 
+
 from typing import List
+
 
 class MergedLinear(nn.Linear, LoraLayer):
     # q,k,v = xW
     # [True, False, True]
     def __init__(self,
-            in_features: int,
-            out_features: int,
-            r: int = 0,  # 4
-            lora_alpha: int = 1,
-            lora_dropout: float = 0.0,
-            enable_lora: List[bool] = [False],
-            merge_weights: bool = True,
-            **kwargs):
+                 in_features: int,
+                 out_features: int,
+                 r: int = 0,  # 4
+                 lora_alpha: int = 1,
+                 lora_dropout: float = 0.0,
+                 enable_lora: List[bool] = [False],
+                 merge_weights: bool = True,
+                 **kwargs):
 
         nn.Linear.__init__(self, in_features, out_features, **kwargs)
         LoraLayer.__init__(self, r, lora_alpha, lora_dropout, merge_weights)
@@ -135,7 +141,7 @@ class MergedLinear(nn.Linear, LoraLayer):
             self.weight.requires_grad = False
             # [out]->[3, out/3]
             self.lora_ind = self.weight.new_zeros((out_features),
-                dtype=torch.bool).view(len(enable_lora), -1)
+                                                  dtype=torch.bool).view(len(enable_lora), -1)
             # [0, out/3], [2, out/3]
             self.lora_ind[enable_lora, :] = True
             # [out]
@@ -146,7 +152,7 @@ class MergedLinear(nn.Linear, LoraLayer):
         result = x.new_zeros((*x.shape[:-1], self.out_features))
         result = result.view(-1, self.out_features)
         result[: self.lora_ind] = x.reshape(-1,
-            self.out_features//len(self.enable_lora)* sum(self.enable_lora))
+                                            self.out_features // len(self.enable_lora) * sum(self.enable_lora))
         # [batch, seq_len, out]
         return result.view((*x.shape[:-1], self.out_features))
 
@@ -157,22 +163,22 @@ class MergedLinear(nn.Linear, LoraLayer):
         if not mode and self.merge_weights and not self.merged:
             if self.r > 0 and any(self.enable_lora):
                 delta_w = F.conv1d(
-                    self.lora_A.weight.data.unsqueeze(0), # [batch, r*sum(enable_lora), in]
-                    self.lora_B.weight.data.unsqueeze(-1), # [out/3*2, r*sum(enable_lora), 1]
+                    self.lora_A.weight.data.unsqueeze(0),  # [batch, r*sum(enable_lora), in]
+                    self.lora_B.weight.data.unsqueeze(-1),  # [out/3*2, r*sum(enable_lora), 1]
                     # [r1;r2], [r1;r2]
                     groups=sum(self.enable_lora)
-                ).squeeze(0) # [out', in]
+                ).squeeze(0)  # [out', in]
                 # [in, out/3*2]
-                self.weight.data += self.zero_pad(transpose(delta_w*self.scaling))
+                self.weight.data += self.zero_pad(transpose(delta_w * self.scaling))
             self.merged = True
         elif self.merge_weights and self.merged:
             if self.r > 0 and any(self.enable_lora):
                 delta_w = F.conv1d(
-                    self.lora_A.weight.data.unsqueeze(0), # [batch, r*sum(enable_lora), in]
-                    self.lora_B.weight.data.unsqueeze(-1), # [out/3*2, r*sum(enable_lora), 1]
+                    self.lora_A.weight.data.unsqueeze(0),  # [batch, r*sum(enable_lora), in]
+                    self.lora_B.weight.data.unsqueeze(-1),  # [out/3*2, r*sum(enable_lora), 1]
                     # [r1;r2], [r1;r2]
                     groups=sum(self.enable_lora)
-                ).squeeze(0) # [in, out/3*2]
+                ).squeeze(0)  # [in, out/3*2]
                 self.weight.data -= self.zero_pad(transpose(delta_w * self.scaling))
             self.merged = False
 
@@ -181,7 +187,7 @@ class MergedLinear(nn.Linear, LoraLayer):
         self.lora_A.eval()
         self.lora_B.eval()
 
-    def forward(self, x:torch.Tensor):
+    def forward(self, x: torch.Tensor):
         if self.disable_adapters:
             if self.r > 0 and self.merged and any(self.enable_lora):
                 delta_w = F.conv1d(
@@ -190,7 +196,7 @@ class MergedLinear(nn.Linear, LoraLayer):
                     # [r1;r2], [r1;r2]
                     groups=sum(self.enable_lora)).squeeze(0)  # [in, out/3*2]
                 self.weight.data -= self.zero_pad(transpose(
-                    delta_w*self.scaling
+                    delta_w * self.scaling
                 ))
                 self.merged = False
             return F.linear(x, transpose(self.weight), bias=self.bias)
