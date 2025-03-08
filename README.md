@@ -1,5 +1,9 @@
 # play-with-instruct-model
 
+### 一个简单的llma实现
+
+
+### 怎么训练，使用instruct-gpt的模型进行训练
 从0到1实现一个简单的instruct-gpt(使用facebook/opt-125m)，从训练到模型的构建，主要分成三个步骤：
 
 ![image-20250223161313683](./pic/1.png)
