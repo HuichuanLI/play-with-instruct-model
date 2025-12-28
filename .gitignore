@@ -24,3 +24,7 @@ cache/models--facebook--opt-125m/blobs/
 cache/models--facebook--opt-125m/snapshots/27dcfa74d334bc871f3234de431e71c6eeba5dd6/
 
 cache/models--facebook--opt-125m/refs/
+
+cot/local_models/teacher_3_4b/
+
+cot/local_models/student_0.5b/
